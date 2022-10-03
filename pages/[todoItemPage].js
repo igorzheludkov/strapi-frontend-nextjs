@@ -1,26 +1,45 @@
 import { useRouter } from 'next/router'
 import TodoItemBlock from '../components/blocks/todoItemsBlock'
-import useGetData from '../hooks/useGetData'
 import { useState, useEffect } from 'react'
+import fetchData from '../lib/fetchData'
+
 
 export default function TodoItemPage() {
   const [data, setData] = useState({})
-  const [addTask, setAddTask] = useState('')
+  const initialAddTask = { data: { title: '', todo_list: '', completed: false } }
+  const [addTask, setAddTask] = useState(initialAddTask)
+  const [status, setStatus] = useState({})
   const listId = useRouter().query.todoItemPage
 
-  console.log(addTask);
-
-  const query = useGetData(listId && `/api/todo-lists/${listId}?populate=*`, 'GET')
+  useEffect(() => {
+    fetchData(listId && `/api/todo-lists/${listId}?populate=*`, 'GET').then(i => i && setData(i))
+  }, [listId, status])
 
   useEffect(() => {
-    if (listId) {
-      setData(query)
+    listId && setAddTask({ ...addTask, data: { ...addTask.data, todo_list: listId } })
+  }, [listId])
+
+  async function addTaskHandler() {
+    if (addTask.data.title) {
+      const result = await fetchData('/api/todo-items', 'POST', addTask)
+      setStatus(result)
+      setAddTask(initialAddTask)
     }
-  }, [listId, query])
-
-
+  }
+  async function removeTaskHandler(e) {
+    const result = await fetchData(`/api/todo-items/${e.target.id}`, 'DELETE')
+    setStatus(result)
+  }
   if (data.hasOwnProperty('data')) {
-    return <TodoItemBlock data={data} setAddTask={setAddTask} addTask={addTask}/>
+    return (
+      <TodoItemBlock
+        data={data}
+        setAddTask={setAddTask}
+        addTask={addTask}
+        handler={addTaskHandler}
+        handlerRemove={removeTaskHandler}
+      />
+    )
   } else {
     return <h1>isLoading</h1>
   }

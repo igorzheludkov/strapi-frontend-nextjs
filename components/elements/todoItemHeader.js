@@ -6,7 +6,7 @@ export default function TodoItemHeader({ data }) {
   return (
     <div style={s.wrapper}>
       <button style={s.arrowBack}>
-        <Link href={`${data.data.id}`}>
+        <Link href={`/`}>
           <a style={s.a}>
             <Image src='/arrow-back.svg' width={20} height={20} alt='back icon' />
           </a>

@@ -1,14 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function TodoItemTask({ data }) {
-  console.log(data);
+export default function TodoItemTask({ data, handlerRemove }) {
   return (
     <div style={s.wrapper}>
       <input type='checkbox' />
       <h2 style={s.title}>{data.attributes.title}</h2>
-      <button style={s.icon}>
-        <Image src='/remove.png' width={20} height={20} alt='remove icon' />
+      <button  onClick={handlerRemove} style={s.icon}>
+        <Image id={data.id} src='/remove.png' width={20} height={20} alt='remove icon' />
       </button>
     </div>
   )

@@ -1,16 +1,19 @@
 import TodoListElement from '../elements/todoListElement'
-import useGetData from '../../hooks/useGetData'
 import { useState, useEffect } from 'react'
-
+import fetchData from '../../lib/fetchData'
 
 export default function TodoListBlock() {
-  const data = useGetData('/api/todo-lists?populate=*', 'GET')
+  const [data, setData] = useState({})
 
-  const [render, setRender] = useState({data: [], meta: {}})
+  useEffect(() => {
+    fetchData('/api/todo-lists?populate=*', 'GET').then((i) => setData(i))
+  }, [])
+
+  const [render, setRender] = useState({ data: [], meta: {} })
 
   useEffect(() => {
     data.data && setRender(data)
-  }, [data]);
+  }, [data])
 
   return (
     <>

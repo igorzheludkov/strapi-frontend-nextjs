@@ -1,11 +1,11 @@
 import Image from 'next/image'
-import Link from 'next/link'
 
-export default function TodoItemTaskAdd({ setAddTask, addTask }) {
+export default function TodoItemTaskAdd({ setAddTask, addTask, handler }) {
+
   return (
     <div style={s.wrapper}>
-      <input onChange={(e) => setAddTask(e.target.value)} value={addTask} style={s.input} type='text' placeholder='Додайте нове завдання' />
-      <button style={s.icon}>
+      <input onChange={(e) => setAddTask({...addTask, data: {...addTask.data, title: e.target.value}})} value={addTask.data.title} style={s.input} type='text' placeholder='Додайте нове завдання' />
+      <button onClick={handler} style={s.icon}>
         <Image src='/task-add.png' width={20} height={20} alt='add task icon' />
       </button>
     </div>
