@@ -1,14 +1,15 @@
 import TodoItemHeader from '../elements/todoItemHeader'
 import TodoItemTask from '../elements/todoItemTask'
+import TodoItemTaskAdd from '../elements/todoItemTaskAdd'
 
-export default function TodoItemBlock({ data }) {
-
+export default function TodoItemBlock({ data, setAddTask, addTask }) {
   const render = data.data.attributes.todo_items.data
-  console.log(data.data.attributes.todo_items);
+
   return (
     <>
-      <TodoItemHeader data={data}/>
-      {render.map(i=>(
+      <TodoItemHeader data={data} />
+      <TodoItemTaskAdd setAddTask={setAddTask} addTask={addTask}/>
+      {render.map((i) => (
         <TodoItemTask key={i.id} data={i} />
       ))}
     </>
