@@ -1,9 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import TodoItemBlock from '../blocks/todoItemsBlock'
 
 export default function todoListElement({ data }) {
-  console.log(data)
 
   return (
     <div style={s.wrapper}>

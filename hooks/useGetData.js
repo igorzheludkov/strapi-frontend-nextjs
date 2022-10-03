@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 
-export default function useGetData(url, method, payload) {
+export default function useGetData(url = '', method = 'GET', payload = '') {
+
   const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN
   const apiURL = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}${url}`
   const body = { body: JSON.stringify(payload) }
 
-  const [data, setData] = useState([])
+  const [data, setData] = useState({})
   const [options, setOptions] = useState({
     method: method,
     headers: {
@@ -31,8 +32,8 @@ export default function useGetData(url, method, payload) {
         setData(result)
       }
     }
-    getData()
-  }, [apiURL, options])
+    url && getData()
+  }, [apiURL, options, url])
 
   return data
 }
